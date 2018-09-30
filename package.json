@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "webpack --config webpack.config.js --mode development --env.development",
     "build": "webpack --config webpack.config.js --mode production --env.production",
+    "prepare": "yarn run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -13,9 +14,12 @@
     "url": "git+https://github.com/Evan-Peuvergne/react-transitions-router.git"
   },
   "keywords": [
-    "react"
+    "react", "router", "routing", "transitions"
   ],
-  "author": "Evan Peuvergne",
+  "author": {
+    "name": "Evan Peuvergne",
+    "email": "evanpeuvergne@gmail.com"
+  },
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Evan-Peuvergne/react-transitions-router/issues"
