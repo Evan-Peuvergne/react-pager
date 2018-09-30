@@ -15,6 +15,7 @@ class Link extends Component {
     return (
       <a 
         href={this.props.dest}
+        className={this.props.className}
         onClick={this._click}>
         {this.props.children}
       </a>
