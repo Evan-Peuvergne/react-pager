@@ -14,9 +14,12 @@
     "url": "git+https://github.com/Evan-Peuvergne/react-transitions-router.git"
   },
   "keywords": [
-    "react"
+    "react", "router", "routing", "transitions"
   ],
-  "author": "Evan Peuvergne",
+  "author": {
+    "name": "Evan Peuvergne",
+    "email": "evanpeuvergne@gmail.com"
+  },
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Evan-Peuvergne/react-transitions-router/issues"
