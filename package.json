@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "webpack --config webpack.config.js --mode development --env.development",
     "build": "webpack --config webpack.config.js --mode production --env.production",
+    "prepare": "yarn run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
