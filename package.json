@@ -1,0 +1,37 @@
+{
+  "name": "react-transitions-router",
+  "version": "1.0.0",
+  "description": "A React router designed to allow developers to easily create transitions/animations between routes",
+  "main": "dist/main.js",
+  "scripts": {
+    "dev": "webpack --config webpack.config.js --mode development --env.development",
+    "build": "webpack --config webpack.config.js --mode production --env.production",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Evan-Peuvergne/react-transitions-router.git"
+  },
+  "keywords": [
+    "react"
+  ],
+  "author": "Evan Peuvergne",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Evan-Peuvergne/react-transitions-router/issues"
+  },
+  "homepage": "https://github.com/Evan-Peuvergne/react-transitions-router#readme",
+  "dependencies": {
+    "react": "^16.5.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.4",
+    "source-map-loader": "^0.2.4",
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.2",
+    "webpack-merge": "^4.1.4"
+  }
+}
