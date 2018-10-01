@@ -12,6 +12,7 @@ class Router extends Component {
     this.props.routes.forEach(r => {
       this.router(r.url, this.display.bind(this, r))
     })
+    this.router('*', () => { this.setState({ current: this.props.notFound }) })
 
     this.state = {
       current: null
@@ -23,15 +24,16 @@ class Router extends Component {
   }
 
   display (route) {
-    this.setState({ current: route.component })
+    this.setState({ current: route.component, notFound: false })
   }
 
   render () {
-    let Children = this.state.current
+    let Current = this.state.current
+
     return (
       <div>
-        {Children &&
-          <Children></Children>
+        {Current &&
+          <Current />
         }
       </div>
     )
@@ -40,7 +42,8 @@ class Router extends Component {
 }
 
 Router.propTypes = {
-  routes: PropTypes.array.isRequired
+  routes: PropTypes.array.isRequired,
+  notFound: PropTypes.func
 }
 
 export default Router
