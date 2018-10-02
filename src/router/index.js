@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Page from 'page'
 
+import RouterStore from 'store'
+
 
 class Router extends Component {
 
@@ -12,7 +14,7 @@ class Router extends Component {
     this.props.routes.forEach(r => {
       this.router(r.url, this.display.bind(this, r))
     })
-    this.router('*', () => { this.setState({ current: this.props.notFound }) })
+    // this.router('*', () => { this.setState({ current: this.props.notFound }) })
 
     this.state = {
       current: null
@@ -42,8 +44,7 @@ class Router extends Component {
 }
 
 Router.propTypes = {
-  routes: PropTypes.array.isRequired,
-  notFound: PropTypes.func
+  routes: PropTypes.array.isRequired
 }
 
 export default Router
