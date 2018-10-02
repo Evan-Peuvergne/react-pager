@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Page from 'page'
 
-import RouterStore from 'store'
-
 
 class Link extends Component {
 
