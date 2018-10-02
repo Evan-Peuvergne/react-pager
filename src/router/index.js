@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Page from 'page'
 
-import RouterStore from 'store'
-
 
 class Router extends Component {
 
@@ -11,14 +9,11 @@ class Router extends Component {
     super(props)
 
     this.router = Page
-    this.props.routes.forEach(r => {
-      this.router(r.url, this.display.bind(this, r))
+    this.props.routes.forEach(route => {
+      this.router(route.url, this.display.bind(this, route))
     })
-    // this.router('*', () => { this.setState({ current: this.props.notFound }) })
 
-    this.state = {
-      current: null
-    }
+    this.state = { current: null }
   }
 
   componentDidMount () {
@@ -26,7 +21,7 @@ class Router extends Component {
   }
 
   display (route) {
-    this.setState({ current: route.component, notFound: false })
+    this.setState({ current: route.component })
   }
 
   render () {

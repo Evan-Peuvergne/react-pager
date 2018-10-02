@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Page from 'page'
 
+import RouterStore from 'store'
+
 
 class Link extends Component {
 
@@ -22,10 +24,8 @@ class Link extends Component {
     )
   }
 
-
   _click = (e) => {
     e.preventDefault()
-    
     this.router.show(this.props.dest)
   }
 
