@@ -14,7 +14,10 @@
     "url": "git+https://github.com/Evan-Peuvergne/react-transitions-router.git"
   },
   "keywords": [
-    "react", "router", "routing", "transitions"
+    "react",
+    "router",
+    "routing",
+    "transitions"
   ],
   "author": {
     "name": "Evan Peuvergne",
@@ -26,10 +29,13 @@
   },
   "homepage": "https://github.com/Evan-Peuvergne/react-transitions-router#readme",
   "dependencies": {
+    "page": "^1.10.2",
+    "prop-types": "^15.6.2",
     "react": "^16.5.2"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.4",
