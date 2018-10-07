@@ -13,7 +13,10 @@ class Router extends Component {
       this.router(route.url, this.display.bind(this, route))
     })
 
-    this.state = { current: null }
+    this.state = { 
+      previous: null,
+      current: null
+    }
   }
 
   componentDidMount () {
@@ -21,16 +24,22 @@ class Router extends Component {
   }
 
   display (route) {
-    this.setState({ current: route.component })
+    if(route === this.state.current) { return }
+    this.setState({ current: route, previous: this.state.current })
   }
 
   render () {
-    let Current = this.state.current
+    let state = this.state
+    let Current = state.current ? state.current.component : null
+    let Previous = state.previous ? state.previous.component : null
 
     return (
-      <div>
+      <div className={this.props.className}>
+        {Previous &&
+          <Previous ref={$el => this.$previous = $el} />
+        }
         {Current &&
-          <Current />
+          <Current ref={$el => this.$current = $el} />
         }
       </div>
     )
