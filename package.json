@@ -1,12 +1,11 @@
 {
   "name": "react-transitions-router",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A React router designed to allow developers to easily create transitions/animations between routes",
   "main": "dist/main.js",
   "scripts": {
     "dev": "webpack --config webpack.config.js --mode development --env.development",
     "build": "webpack --config webpack.config.js --mode production --env.production",
-    "prepare": "yarn run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
