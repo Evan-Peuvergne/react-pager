@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Page from 'page'
 
+import Styles from './styles'
+
 
 class Router extends Component {
 
