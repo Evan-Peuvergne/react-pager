@@ -30,7 +30,7 @@ class Router extends Component {
     let Current = this.state.current
 
     return (
-      <div>
+      <div className={`${Styles.router} ${this.props.className}`}>
         {Current &&
           <Current />
         }
