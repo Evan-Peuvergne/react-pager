@@ -1,17 +1,17 @@
 {
-  "name": "react-transitions-router",
-  "version": "1.0.1",
-  "description": "A React router designed to allow developers to easily create transitions/animations between routes",
+  "name": "react-roads",
+  "version": "1.0.0",
+  "description": "A React router designed to allow developers to easily create transitions/animations between pages",
   "main": "dist/main.js",
   "scripts": {
     "dev": "webpack --config webpack.config.js --mode development --env.development",
     "build": "webpack --config webpack.config.js --mode production --env.production",
-    "publish": "yarn run build && yarn publish",
+    "deploy": "yarn run build && yarn publish",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Evan-Peuvergne/react-transitions-router.git"
+    "url": "git+https://github.com/Evan-Peuvergne/react-roads.git"
   },
   "keywords": [
     "react",
@@ -25,9 +25,9 @@
   },
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Evan-Peuvergne/react-transitions-router/issues"
+    "url": "https://github.com/Evan-Peuvergne/react-roads/issues"
   },
-  "homepage": "https://github.com/Evan-Peuvergne/react-transitions-router#readme",
+  "homepage": "https://github.com/Evan-Peuvergne/react-roads#readme",
   "dependencies": {
     "page": "^1.10.2",
     "prop-types": "^15.6.2",
