@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Page from 'page'
 
+import Styles from './styles'
+
 
 class Router extends Component {
 
@@ -56,7 +58,7 @@ class Router extends Component {
     let Previous = state.previous ? state.previous.component : null
 
     return (
-      <div className={this.props.className}>
+      <div className={`${Styles.router} ${this.props.className}`}>
         {Previous && state.isChanging &&
           <Previous ref={$el => this.$previous = $el} />
         }
