@@ -15,7 +15,11 @@ class Router extends Component {
       this.router(route.url, this.display.bind(this, route))
     })
 
-    this.state = { current: null }
+    this.state = { 
+      previous: null,
+      current: null,
+      isChanging: false
+    }
   }
 
   componentDidMount () {
@@ -23,16 +27,43 @@ class Router extends Component {
   }
 
   display (route) {
-    this.setState({ current: route.component })
+    if(route === null) { return }
+    if(route === this.state.current) { return }
+
+    let state = { current: route, previous: this.state.current, isChanging: true }
+    this.setState(state)
+
+    let transition = {
+      previous: this.$previous,
+      current: this.$current,
+      left: this.leftTransition.bind(this)
+    }
+
+    let result = null
+    if(state.previous && state.previous.leave) { 
+      result = state.previous.leave.call(this.$previous, transition)
+    }
+    if(route && route.enter) {
+      route.enter.call(this.$current, transition, result)
+    }
+  }
+
+  leftTransition () {
+    this.setState({ isChanging: false })
   }
 
   render () {
-    let Current = this.state.current
+    let state = this.state
+    let Current = state.current ? state.current.component : null
+    let Previous = state.previous ? state.previous.component : null
 
     return (
       <div className={`${Styles.router} ${this.props.className}`}>
+        {Previous && state.isChanging &&
+          <Previous ref={$el => this.$previous = $el} />
+        }
         {Current &&
-          <Current />
+          <Current ref={$el => this.$current = $el} />
         }
       </div>
     )
