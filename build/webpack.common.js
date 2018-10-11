@@ -17,11 +17,6 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
-        loader: 'source-map-loader',
-        enforce: 'pre'
-      },
-      {
         test: /\.jsx?$/,
         loader: 'babel-loader',
         exclude: /node_modules/
@@ -36,7 +31,8 @@ module.exports = {
               importLoaders: 1,
               modules: true,
               camelCase: true,
-              localIdentName: '[local]__[hash:base64:5]'
+              localIdentName: '[local]__[hash:base64:5]',
+              sourceMap: false,
             }
           },
           { loader: 'sass-loader' }

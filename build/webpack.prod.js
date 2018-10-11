@@ -4,5 +4,6 @@ const Common = require('./webpack.common')
 
 
 module.exports = Merge(Common, {
-  mode: 'production'
+  mode: 'production',
+  devtool: 'source-map'
 })
