@@ -1,6 +1,6 @@
 {
   "name": "react-roads",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A React router designed to allow developers to easily create transitions/animations between pages",
   "main": "dist/main.js",
   "scripts": {
