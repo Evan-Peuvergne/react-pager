@@ -27,25 +27,11 @@ class Router extends Component {
   }
 
   display (route) {
-    if(route === null) { return }
-    if(route === this.state.current) { return }
-
-    let state = { current: route, previous: this.state.current, isChanging: true }
-    this.setState(state)
-
-    let transition = {
-      previous: this.$previous,
-      current: this.$current,
-      left: this.leftTransition.bind(this)
-    }
-
-    let result = null
-    if(state.previous && state.previous.leave) { 
-      result = state.previous.leave.call(this.$previous, transition)
-    }
-    if(route && route.enter) {
-      route.enter.call(this.$current, transition, result)
-    }
+    this.setState({
+      current: route,
+      previous: this.state.current,
+      isChanging: true
+    })
   }
 
   leftTransition () {

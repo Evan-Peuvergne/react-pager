@@ -24,7 +24,8 @@ class Link extends Component {
 
   _click = (e) => {
     e.preventDefault()
-    this.router.show(this.props.dest)
+    console.log('coucou')
+    // this.router.show(this.props.dest)
   }
 
 }
