@@ -8,7 +8,7 @@
     "dev": "webpack --config webpack.config.js --mode development --env.development",
     "build": "webpack --config webpack.config.js --mode production --env.production && yarn run types",
     "deploy": "yarn run types && yarn run build && yarn publish",
-    "types": "tsc --noEmit false --declaration --declarationDir types",
+    "types": "tsc --noEmit false --emitDeclarationOnly --declaration --declarationDir types",
     "typescript": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
