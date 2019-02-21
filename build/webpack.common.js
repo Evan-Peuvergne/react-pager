@@ -5,7 +5,7 @@ const Resolve = require('./resolve.js')
 
 module.exports = {
   entry: [
-    './src/index.js'
+    './src/index.ts'
   ],
   output: {
     filename: '[name].js',
@@ -17,7 +17,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.(js|ts)x?$/,
         loader: 'babel-loader',
         exclude: /node_modules/
       },
