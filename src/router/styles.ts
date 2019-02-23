@@ -1,4 +1,4 @@
-import Styled from "styled-components";
+import Styled from 'styled-components'
 
 export const Root = Styled.div`
   position: relative;
@@ -6,4 +6,4 @@ export const Root = Styled.div`
   > * {
     position: absolute;
   }
-`;
+`

@@ -1,14 +1,14 @@
-import React, { Component, ReactNode, SyntheticEvent } from "react";
+import React, { Component, ReactNode, SyntheticEvent } from 'react'
 
 declare interface LinkProps {
-  dest: string;
-  className: string;
-  children: ReactNode;
+  dest: string
+  className: string
+  children: ReactNode
 }
 
 class Link extends Component<LinkProps, {}> {
   constructor(props: LinkProps) {
-    super(props);
+    super(props)
   }
 
   render() {
@@ -16,18 +16,17 @@ class Link extends Component<LinkProps, {}> {
       <a
         href={this.props.dest}
         className={this.props.className}
-        onClick={this._onClick}
-      >
+        onClick={this._onClick}>
         {this.props.children}
       </a>
-    );
+    )
   }
 
   _onClick = (evt: SyntheticEvent): void => {
-    evt.preventDefault();
+    evt.preventDefault()
     // console.log('coucou')
     // this.router.show(this.props.dest)
-  };
+  }
 }
 
-export default Link;
+export default Link
