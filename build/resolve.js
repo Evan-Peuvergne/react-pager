@@ -2,7 +2,7 @@ const path = require('path')
 
 
 module.exports = {
-  extensions: ['*', '.js', '.jsx', '.scss', '.css' ],
+  extensions: ['*', '.js', '.jsx', '.ts', '.tsx', '.scss', '.css' ],
   alias: {
     src: path.resolve('src'),
     router: path.resolve('src/router'),
