@@ -2,8 +2,10 @@
   "compilerOptions": {
     "target": "esnext",
     "moduleResolution": "node",
+    "lib": ["es2015", "dom"],
+    "declaration": true,
+    "declarationDir": "types",
     "allowJs": false,
-    "noEmit": true,
     "strict": true,
     "esModuleInterop": true,
     "jsx": "react",
