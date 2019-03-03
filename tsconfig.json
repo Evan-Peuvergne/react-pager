@@ -1,9 +1,12 @@
 {
   "compilerOptions": {
     "target": "esnext",
+    "sourceMap": true,
     "moduleResolution": "node",
+    "noEmit": false,
+    "declaration": true,
+    "declarationDir": "types",
     "allowJs": false,
-    "noEmit": true,
     "strict": true,
     "esModuleInterop": true,
     "jsx": "react",

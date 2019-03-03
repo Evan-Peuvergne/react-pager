@@ -2,16 +2,16 @@ import React, { Component } from 'react'
 
 import { Root } from './styles'
 
-declare interface Route {
+export interface Route {
   name: String
   url: String
-  component: React.ComponentType<any>
+  component: any
 }
-declare interface RouterProps {
+export interface RouterProps {
   routes: [Route]
-  className: string
+  className?: string
 }
-declare interface RouterState {
+export interface RouterState {
   previous?: Route
   current?: Route
   isChanging: boolean
@@ -37,15 +37,16 @@ class Router extends Component<RouterProps, RouterState> {
   }
 
   render() {
-    let state: RouterState = this.state
-    let Current = state.current ? state.current.component : null
-    let Previous = state.previous ? state.previous.component : null
+    // let state: RouterState = this.state
+    // let Current = state.current ? state.current.component : null
+    // let Previous = state.previous ? state.previous.component : null
 
     return (
-      <Root className={this.props.className}>
-        {Previous && state.isChanging && <Previous />}
-        {Current && <Current />}
-      </Root>
+      <p>Evan</p>
+      // <Root className={this.props.className}>
+      //   {Previous && state.isChanging && <Previous />}
+      //   {Current && <Current />}
+      // </Root>
     )
   }
 }
