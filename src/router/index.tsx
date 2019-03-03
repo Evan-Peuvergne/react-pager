@@ -3,12 +3,12 @@ import React, { Component } from 'react'
 import { Root } from './styles'
 
 export interface Route {
-  name: String
-  url: String
-  component: any
+  name: string
+  url: string | RegExp
+  component: React.ComponentType<any>
 }
 export interface RouterProps {
-  routes: [Route]
+  routes: Route[]
   className?: string
 }
 export interface RouterState {
