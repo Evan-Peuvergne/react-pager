@@ -1,9 +1,6 @@
 import React, { PureComponent } from 'react'
 import { findIndex } from 'lodash'
 
-import { Container } from './styles'
-import { string } from 'prop-types'
-
 export interface Route {
   name: string
   url: string | RegExp
@@ -52,7 +49,7 @@ class Router extends PureComponent<RouterProps, RouterState> {
 
       if (pattern instanceof RegExp && pattern.test(url))
         return this.display(route)
-      if (pattern instanceof string && pattern === url)
+      if (pattern instanceof String && pattern === url)
         return this.display(route)
     }
 
