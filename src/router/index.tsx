@@ -1,14 +1,14 @@
-import React, { Component } from 'react'
-
-import { Root } from './styles'
+import React, { PureComponent } from 'react'
+import { findIndex } from 'lodash'
 
 export interface Route {
-  name: String
-  url: String
-  component: any
+  name: string
+  url: string | RegExp
+  redirects?: (string | RegExp)[]
+  component: React.ComponentType<any>
 }
 export interface RouterProps {
-  routes: [Route]
+  routes: Route[]
   className?: string
 }
 export interface RouterState {
@@ -17,18 +17,46 @@ export interface RouterState {
   isChanging: boolean
 }
 
-class Router extends Component<RouterProps, RouterState> {
+class Router extends PureComponent<RouterProps, RouterState> {
+  routes: Route[]
+  notFound?: Route
+
   constructor(props: RouterProps) {
     super(props)
-
     this.state = {
       previous: undefined,
       current: undefined,
       isChanging: false,
     }
+
+    this.routes = props.routes
+
+    let index: number = findIndex(props.routes, r => r.url === '*')
+    if (index) {
+      this.notFound = props.routes[index]
+    }
+    this.routes.splice(index, 1)
   }
 
-  display(route: Route) {
+  componentDidMount() {
+    this.process(window.location.pathname)
+  }
+
+  process(url: string): void {
+    for (let i in this.routes) {
+      let route: Route = this.routes[i]
+      let pattern = route.url
+
+      if (pattern instanceof RegExp && pattern.test(url))
+        return this.display(route)
+      if (pattern instanceof String && pattern === url)
+        return this.display(route)
+    }
+
+    if (this.notFound) return this.display(this.notFound)
+  }
+
+  display(route: Route): void {
     this.setState({
       current: route,
       previous: this.state.current,
@@ -37,16 +65,15 @@ class Router extends Component<RouterProps, RouterState> {
   }
 
   render() {
-    // let state: RouterState = this.state
-    // let Current = state.current ? state.current.component : null
-    // let Previous = state.previous ? state.previous.component : null
+    let state: RouterState = this.state
+    let Current = state.current ? state.current.component : null
+    let Previous = state.previous ? state.previous.component : null
 
     return (
-      <p>Evan</p>
-      // <Root className={this.props.className}>
-      //   {Previous && state.isChanging && <Previous />}
-      //   {Current && <Current />}
-      // </Root>
+      <div className={this.props.className}>
+        {Previous && state.isChanging && <Previous />}
+        {Current && <Current />}
+      </div>
     )
   }
 }

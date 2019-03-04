@@ -1,4 +1,5 @@
 const path = require('path')
+const LodashPlugin = require('lodash-webpack-plugin')
 
 const Resolve = require('./resolve.js')
 
@@ -20,4 +21,5 @@ module.exports = {
       },
     ],
   },
+  plugins: [new LodashPlugin()],
 }
