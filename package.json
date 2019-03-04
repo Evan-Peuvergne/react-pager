@@ -31,6 +31,7 @@
   },
   "homepage": "https://github.com/Evan-Peuvergne/react-roads#readme",
   "dependencies": {
+    "@types/lodash": "^4.14.121",
     "page": "^1.10.2",
     "prop-types": "^15.6.2",
     "react": "^16.5.2",
