@@ -79,6 +79,8 @@ class Router extends PureComponent<RouterProps, RouterState> {
       if (typeof result === 'boolean' && result === true) this.endTransition()
       if (typeof result === 'number') setTimeout(this.endTransition, result)
       if (result instanceof Promise) result.then(this.endTransition)
+    } else {
+      this.endTransition()
     }
   }
 
