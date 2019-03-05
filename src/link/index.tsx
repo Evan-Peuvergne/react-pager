@@ -2,7 +2,7 @@ import React, { Component, ReactNode, SyntheticEvent } from 'react'
 
 declare interface LinkProps {
   dest: string
-  className: string
+  className?: string
   children: ReactNode
 }
 
@@ -24,8 +24,12 @@ class Link extends Component<LinkProps, {}> {
 
   _onClick = (evt: SyntheticEvent): void => {
     evt.preventDefault()
-    // console.log('coucou')
-    // this.router.show(this.props.dest)
+
+    let detail = { dest: this.props.dest }
+    window.history.pushState(detail, '', this.props.dest)
+
+    let event = new CustomEvent('pushedState', { detail })
+    window.dispatchEvent(event)
   }
 }
 
