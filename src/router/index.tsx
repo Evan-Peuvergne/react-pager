@@ -45,6 +45,7 @@ class Router extends PureComponent<RouterProps, RouterState> {
   componentDidMount() {
     this.process(window.location.pathname)
 
+    window.addEventListener('popstate', this._onPopState)
     window.addEventListener('pushedState', d => {
       this.process(window.location.pathname)
     })
@@ -86,6 +87,11 @@ class Router extends PureComponent<RouterProps, RouterState> {
 
   endTransition = (): void => {
     this.setState({ previous: undefined, isChanging: false })
+  }
+
+  _onPopState = () => {
+    let event = new CustomEvent('pushedState', {})
+    window.dispatchEvent(event)
   }
 
   render() {

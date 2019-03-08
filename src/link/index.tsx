@@ -1,22 +1,23 @@
 import React, { Component, ReactNode, SyntheticEvent } from 'react'
 
-declare interface LinkProps {
+export interface LinkProps {
   dest: string
   className?: string
+  active?: boolean
   children: ReactNode
 }
+export interface LinkState {}
 
-class Link extends Component<LinkProps, {}> {
+class Link extends Component<LinkProps, LinkState> {
   constructor(props: LinkProps) {
     super(props)
   }
 
   render() {
+    const { dest, className } = this.props
+
     return (
-      <a
-        href={this.props.dest}
-        className={this.props.className}
-        onClick={this._onClick}>
+      <a href={dest} className={className} onClick={this._onClick}>
         {this.props.children}
       </a>
     )
