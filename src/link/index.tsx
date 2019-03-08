@@ -1,22 +1,23 @@
 import React, { Component, ReactNode, SyntheticEvent } from 'react'
 
-declare interface LinkProps {
+export interface LinkProps {
   dest: string
-  className: string
+  className?: string
+  active?: boolean
   children: ReactNode
 }
+export interface LinkState {}
 
-class Link extends Component<LinkProps, {}> {
+class Link extends Component<LinkProps, LinkState> {
   constructor(props: LinkProps) {
     super(props)
   }
 
   render() {
+    const { dest, className } = this.props
+
     return (
-      <a
-        href={this.props.dest}
-        className={this.props.className}
-        onClick={this._onClick}>
+      <a href={dest} className={className} onClick={this._onClick}>
         {this.props.children}
       </a>
     )
@@ -24,8 +25,12 @@ class Link extends Component<LinkProps, {}> {
 
   _onClick = (evt: SyntheticEvent): void => {
     evt.preventDefault()
-    // console.log('coucou')
-    // this.router.show(this.props.dest)
+
+    let detail = { dest: this.props.dest }
+    window.history.pushState(detail, '', this.props.dest)
+
+    let event = new CustomEvent('pushedState', { detail })
+    window.dispatchEvent(event)
   }
 }
 

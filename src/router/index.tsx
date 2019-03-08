@@ -9,6 +9,10 @@ export interface Route {
 }
 export interface RouterProps {
   routes: Route[]
+  onRouteChanged?: (
+    current?: Route,
+    previous?: Route
+  ) => Promise<any> | number | boolean
   className?: string
 }
 export interface RouterState {
@@ -40,6 +44,11 @@ class Router extends PureComponent<RouterProps, RouterState> {
 
   componentDidMount() {
     this.process(window.location.pathname)
+
+    window.addEventListener('popstate', this._onPopState)
+    window.addEventListener('pushedState', d => {
+      this.process(window.location.pathname)
+    })
   }
 
   process(url: string): void {
@@ -56,12 +65,33 @@ class Router extends PureComponent<RouterProps, RouterState> {
     if (this.notFound) return this.display(this.notFound)
   }
 
-  display(route: Route): void {
+  display = (route: Route): void => {
+    let previous = this.state.current
+
     this.setState({
       current: route,
       previous: this.state.current,
       isChanging: true,
     })
+
+    if (this.props.onRouteChanged) {
+      let result = this.props.onRouteChanged(route, previous)
+
+      if (typeof result === 'boolean' && result === true) this.endTransition()
+      if (typeof result === 'number') setTimeout(this.endTransition, result)
+      if (result instanceof Promise) result.then(this.endTransition)
+    } else {
+      this.endTransition()
+    }
+  }
+
+  endTransition = (): void => {
+    this.setState({ previous: undefined, isChanging: false })
+  }
+
+  _onPopState = () => {
+    let event = new CustomEvent('pushedState', {})
+    window.dispatchEvent(event)
   }
 
   render() {
