@@ -26,10 +26,9 @@ class Link extends Component<LinkProps, LinkState> {
   _onClick = (evt: SyntheticEvent): void => {
     evt.preventDefault()
 
-    let detail = { dest: this.props.dest }
-    window.history.pushState(detail, '', this.props.dest)
+    window.history.pushState({}, '', this.props.dest)
 
-    let event = new CustomEvent('pushedState', { detail })
+    let event = new CustomEvent('HistoryChanged', {})
     window.dispatchEvent(event)
   }
 }

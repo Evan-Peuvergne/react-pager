@@ -3,8 +3,8 @@ import { findIndex } from 'lodash'
 
 export interface Route {
   name: string
-  url: string | RegExp
-  redirects?: (string | RegExp)[]
+  url?: string
+  pattern: string | RegExp
   component: React.ComponentType<any>
 }
 export interface RouterProps {
@@ -36,9 +36,7 @@ class Router extends PureComponent<RouterProps, RouterState> {
     this.routes = props.routes
 
     let index: number = findIndex(props.routes, r => r.url === '*')
-    if (index) {
-      this.notFound = props.routes[index]
-    }
+    if (index) this.notFound = props.routes[index]
     this.routes.splice(index, 1)
   }
 
@@ -46,7 +44,7 @@ class Router extends PureComponent<RouterProps, RouterState> {
     this.process(window.location.pathname)
 
     window.addEventListener('popstate', this._onPopState)
-    window.addEventListener('pushedState', d => {
+    window.addEventListener('HistoryChanged', d => {
       this.process(window.location.pathname)
     })
   }
@@ -54,19 +52,20 @@ class Router extends PureComponent<RouterProps, RouterState> {
   process(url: string): void {
     for (let i in this.routes) {
       let route: Route = this.routes[i]
-      let pattern = route.url
 
-      if (pattern instanceof RegExp && pattern.test(url))
-        return this.display(route)
-      if (pattern instanceof String && pattern === url)
-        return this.display(route)
+      if (route.pattern instanceof RegExp && route.pattern.test(url))
+        return this.display(route, url)
+      if (route.pattern instanceof String && route.pattern === url)
+        return this.display(route, url)
     }
-
     if (this.notFound) return this.display(this.notFound)
   }
 
-  display = (route: Route): void => {
+  display = (route: Route, url?: string): void => {
     let previous = this.state.current
+
+    if (url && route.url !== url)
+      window.history.replaceState({}, route.name, route.url)
 
     this.setState({
       current: route,
@@ -90,7 +89,7 @@ class Router extends PureComponent<RouterProps, RouterState> {
   }
 
   _onPopState = () => {
-    let event = new CustomEvent('pushedState', {})
+    let event = new CustomEvent('HistoryChanged', {})
     window.dispatchEvent(event)
   }
 
