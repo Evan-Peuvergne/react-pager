@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { findIndex } from 'lodash'
+import { isUrlMatchingRoute } from '../utils'
 
 export interface Route {
   name: string
@@ -22,22 +23,23 @@ export interface RouterState {
 }
 
 class Router extends PureComponent<RouterProps, RouterState> {
-  routes: Route[]
-  notFound?: Route
+  static routes: Route[]
+  static notFound?: Route
 
   constructor(props: RouterProps) {
     super(props)
+
     this.state = {
       previous: undefined,
       current: undefined,
       isChanging: false,
     }
 
-    this.routes = props.routes
+    Router.routes = props.routes
 
     let index: number = findIndex(props.routes, r => r.url === '*')
-    if (index) this.notFound = props.routes[index]
-    this.routes.splice(index, 1)
+    if (index) Router.notFound = props.routes[index]
+    Router.routes.splice(index, 1)
   }
 
   componentDidMount() {
@@ -50,15 +52,11 @@ class Router extends PureComponent<RouterProps, RouterState> {
   }
 
   process(url: string): void {
-    for (let i in this.routes) {
-      let route: Route = this.routes[i]
-
-      if (route.pattern instanceof RegExp && route.pattern.test(url))
-        return this.display(route, url)
-      if (route.pattern instanceof String && route.pattern === url)
-        return this.display(route, url)
+    for (let i in Router.routes) {
+      let route: Route = Router.routes[i]
+      if (isUrlMatchingRoute(url, route)) return this.display(route, url)
     }
-    if (this.notFound) return this.display(this.notFound)
+    if (Router.notFound) return this.display(Router.notFound)
   }
 
   display = (route: Route, url?: string): void => {
