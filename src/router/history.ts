@@ -1,6 +1,6 @@
 import { find, List } from 'lodash'
 import Router from './index'
-import { isUrlMatchingRoute } from './utils'
+import { isMatching } from './utils'
 
 export type HistoryChangedEvent = {
   dest: string
@@ -26,7 +26,7 @@ class History {
   go = (url: string): void => {
     let event: HistoryChangedEvent = { dest: url, url }
 
-    let route = find(Router.routes, r => isUrlMatchingRoute(url, r))
+    let route = find(Router.routes, r => isMatching(url, r))
     if (route)
       event = Object.assign(event, { url: route.url, name: route.name })
 

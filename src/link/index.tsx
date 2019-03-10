@@ -1,7 +1,7 @@
 import React, { Component, ReactNode, SyntheticEvent } from 'react'
 import { find } from 'lodash'
 import Router from '../router'
-import { isUrlMatchingRoute } from 'router/utils'
+import { isMatching } from 'router/utils'
 import history from 'router/history'
 
 import { Route } from '../router'
@@ -22,7 +22,7 @@ class Link extends Component<LinkProps, LinkState> {
 
     let url: string = props.dest
     if (Router && Router.routes) {
-      let route = find(Router.routes, r => isUrlMatchingRoute(props.dest, r))
+      let route = find(Router.routes, r => isMatching(props.dest, r))
       if (route && route.url) url = route.url
     }
     this.state = { url }

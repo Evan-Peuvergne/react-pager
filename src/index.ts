@@ -1,11 +1,11 @@
 import Router from './router'
 import Link from './link'
 import history from './router/history'
-import { isUrlMatchingRoute } from './router/utils'
+import { isMatching } from './router/utils'
 
 export default Router
 export { Router, Link, history }
-export { isUrlMatchingRoute }
+export { isMatching }
 
 import { Route } from './router'
 import { LinkProps } from './link'

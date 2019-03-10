@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { findIndex } from 'lodash'
 import history, { HistoryChangedEvent, Listener } from './history'
-import { isUrlMatchingRoute } from './utils'
+import { isMatching } from './utils'
 
 export interface Route {
   name: string
@@ -57,7 +57,7 @@ class Router extends PureComponent<RouterProps, RouterState> {
   process(url: string): void {
     for (let i in Router.routes) {
       let route: Route = Router.routes[i]
-      if (isUrlMatchingRoute(url, route)) return this.display(route, url)
+      if (isMatching(url, route)) return this.display(route, url)
     }
     if (Router.notFound) return this.display(Router.notFound)
   }
