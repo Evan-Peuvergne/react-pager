@@ -3,10 +3,12 @@
   "version": "1.0.3",
   "description": "A React router designed to allow developers to easily create transitions/animations between pages",
   "main": "dist/main.js",
+  "types": "types/index.d.ts",
   "scripts": {
     "dev": "webpack --config webpack.config.js --mode development --env.development",
     "build": "webpack --config webpack.config.js --mode production --env.production",
     "deploy": "yarn run build && yarn publish",
+    "typescript": "tsc --noEmit",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -29,21 +31,30 @@
   },
   "homepage": "https://github.com/Evan-Peuvergne/react-roads#readme",
   "dependencies": {
+    "@types/lodash": "^4.14.121",
     "page": "^1.10.2",
     "prop-types": "^15.6.2",
-    "react": "^16.5.2"
+    "react": "^16.5.2",
+    "react-dom": "^16.8.2"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",
     "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.3.2",
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
-    "babel-loader": "^8.0.4",
+    "@babel/preset-typescript": "^7.3.3",
+    "@types/page": "^1.8.0",
+    "@types/react": "^16.8.3",
+    "@types/react-dom": "^16.8.2",
+    "@types/styled-components": "^4.1.10",
+    "babel-loader": "^8.0.5",
+    "babel-plugin-lodash": "^3.3.4",
     "css-loader": "^1.0.0",
-    "node-sass": "^4.9.3",
-    "sass-loader": "^7.1.0",
-    "source-map-loader": "^0.2.4",
-    "style-loader": "^0.23.0",
+    "lodash": "^4.17.11",
+    "lodash-webpack-plugin": "^0.11.5",
+    "ts-loader": "^5.3.3",
+    "typescript": "^3.3.3",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.2",
     "webpack-merge": "^4.1.4"

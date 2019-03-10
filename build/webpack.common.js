@@ -1,43 +1,25 @@
 const path = require('path')
+const LodashPlugin = require('lodash-webpack-plugin')
 
 const Resolve = require('./resolve.js')
 
-
 module.exports = {
-  entry: [
-    './src/index.js'
-  ],
+  entry: ['./src/index.ts'],
   output: {
     filename: '[name].js',
     publicPath: '/',
     libraryTarget: 'umd',
-    library: 'Router'
+    library: 'Router',
   },
   resolve: Resolve,
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/
+        test: /\.(js|ts)x?$/,
+        use: [{ loader: 'babel-loader' }, { loader: 'ts-loader' }],
+        exclude: /node_modules|\.d\.ts$/,
       },
-      {
-        test: /\.scss$/,
-        use: [
-          { loader: 'style-loader' },
-          { 
-            loader: 'css-loader',
-            options: {
-              importLoaders: 1,
-              modules: true,
-              camelCase: true,
-              localIdentName: '[local]__[hash:base64:5]',
-              sourceMap: false,
-            }
-          },
-          { loader: 'sass-loader' }
-        ]
-      }
-    ]
-  }
+    ],
+  },
+  plugins: [new LodashPlugin()],
 }
