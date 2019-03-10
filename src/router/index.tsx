@@ -1,10 +1,12 @@
 import React, { PureComponent } from 'react'
 import { findIndex } from 'lodash'
+import history, { HistoryChangedEvent, Listener } from './history'
+import { isMatching } from './utils'
 
 export interface Route {
   name: string
-  url: string | RegExp
-  redirects?: (string | RegExp)[]
+  url?: string
+  pattern: string | RegExp
   component: React.ComponentType<any>
 }
 export interface RouterProps {
@@ -22,51 +24,49 @@ export interface RouterState {
 }
 
 class Router extends PureComponent<RouterProps, RouterState> {
-  routes: Route[]
-  notFound?: Route
+  static routes: Route[]
+  static notFound?: Route
 
   constructor(props: RouterProps) {
     super(props)
+
     this.state = {
       previous: undefined,
       current: undefined,
       isChanging: false,
     }
 
-    this.routes = props.routes
+    Router.routes = props.routes
 
     let index: number = findIndex(props.routes, r => r.url === '*')
-    if (index) {
-      this.notFound = props.routes[index]
-    }
-    this.routes.splice(index, 1)
+    if (index) Router.notFound = props.routes[index]
+    Router.routes.splice(index, 1)
   }
 
   componentDidMount() {
     this.process(window.location.pathname)
 
-    window.addEventListener('popstate', this._onPopState)
-    window.addEventListener('pushedState', d => {
-      this.process(window.location.pathname)
-    })
+    history.listen(this._onHistoryChanged)
+
+    // window.addEventListener('popstate', this._onPopState)
+    // window.addEventListener('HistoryChanged', d => {
+    //   this.process(window.location.pathname)
+    // })
   }
 
   process(url: string): void {
-    for (let i in this.routes) {
-      let route: Route = this.routes[i]
-      let pattern = route.url
-
-      if (pattern instanceof RegExp && pattern.test(url))
-        return this.display(route)
-      if (pattern instanceof String && pattern === url)
-        return this.display(route)
+    for (let i in Router.routes) {
+      let route: Route = Router.routes[i]
+      if (isMatching(url, route)) return this.display(route, url)
     }
-
-    if (this.notFound) return this.display(this.notFound)
+    if (Router.notFound) return this.display(Router.notFound)
   }
 
-  display = (route: Route): void => {
+  display = (route: Route, url?: string): void => {
     let previous = this.state.current
+
+    if (url && route.url !== url)
+      window.history.replaceState({}, route.name, route.url)
 
     this.setState({
       current: route,
@@ -89,8 +89,12 @@ class Router extends PureComponent<RouterProps, RouterState> {
     this.setState({ previous: undefined, isChanging: false })
   }
 
+  _onHistoryChanged = (event: HistoryChangedEvent): void => {
+    this.process(event.url)
+  }
+
   _onPopState = () => {
-    let event = new CustomEvent('pushedState', {})
+    let event = new CustomEvent('HistoryChanged', {})
     window.dispatchEvent(event)
   }
 
