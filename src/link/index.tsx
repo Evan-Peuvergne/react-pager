@@ -1,8 +1,8 @@
 import React, { Component, ReactNode, SyntheticEvent } from 'react'
 import { find } from 'lodash'
 import Router from '../router'
-import { isUrlMatchingRoute } from '../utils'
-import history from '../history'
+import { isUrlMatchingRoute } from 'router/utils'
+import history from 'router/history'
 
 import { Route } from '../router'
 

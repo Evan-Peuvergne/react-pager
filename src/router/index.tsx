@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { findIndex } from 'lodash'
-import history, { HistoryChangedEvent, Listener } from '../history'
-import { isUrlMatchingRoute } from '../utils'
+import history, { HistoryChangedEvent, Listener } from './history'
+import { isUrlMatchingRoute } from './utils'
 
 export interface Route {
   name: string

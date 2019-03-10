@@ -1,7 +1,6 @@
 import { find, List } from 'lodash'
-import Router from '../router'
-import { isUrlMatchingRoute } from '../utils'
-import { any } from 'prop-types'
+import Router from './index'
+import { isUrlMatchingRoute } from './utils'
 
 export type HistoryChangedEvent = {
   dest: string

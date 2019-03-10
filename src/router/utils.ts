@@ -1,4 +1,4 @@
-import { Route } from '../router'
+import { Route } from './index'
 
 export const isUrlMatchingRoute = (url: string, route: Route): boolean => {
   let pattern = route.pattern
