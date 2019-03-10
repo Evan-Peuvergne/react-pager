@@ -29,11 +29,10 @@ class Link extends Component<LinkProps, LinkState> {
   }
 
   render() {
-    const { className } = this.props
-    const { url } = this.state
+    const { dest, className } = this.props
 
     return (
-      <a href={url} className={className} onClick={this._onClick}>
+      <a href={dest} className={className} onClick={this._onClick}>
         {this.props.children}
       </a>
     )
