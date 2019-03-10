@@ -2,6 +2,7 @@ import React, { Component, ReactNode, SyntheticEvent } from 'react'
 import { find } from 'lodash'
 import Router from '../router'
 import { isUrlMatchingRoute } from '../utils'
+import history from '../history'
 
 import { Route } from '../router'
 
@@ -24,7 +25,6 @@ class Link extends Component<LinkProps, LinkState> {
       let route = find(Router.routes, r => isUrlMatchingRoute(props.dest, r))
       if (route && route.url) url = route.url
     }
-
     this.state = { url }
   }
 
@@ -42,10 +42,7 @@ class Link extends Component<LinkProps, LinkState> {
   _onClick = (evt: SyntheticEvent): void => {
     evt.preventDefault()
 
-    window.history.pushState({}, '', this.props.dest)
-
-    let event = new CustomEvent('HistoryChanged', {})
-    window.dispatchEvent(event)
+    history.go(this.state.url)
   }
 }
 

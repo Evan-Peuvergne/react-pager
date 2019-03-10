@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { findIndex } from 'lodash'
+import history, { HistoryChangedEvent, Listener } from '../history'
 import { isUrlMatchingRoute } from '../utils'
 
 export interface Route {
@@ -45,10 +46,12 @@ class Router extends PureComponent<RouterProps, RouterState> {
   componentDidMount() {
     this.process(window.location.pathname)
 
-    window.addEventListener('popstate', this._onPopState)
-    window.addEventListener('HistoryChanged', d => {
-      this.process(window.location.pathname)
-    })
+    history.listen(this._onHistoryChanged)
+
+    // window.addEventListener('popstate', this._onPopState)
+    // window.addEventListener('HistoryChanged', d => {
+    //   this.process(window.location.pathname)
+    // })
   }
 
   process(url: string): void {
@@ -84,6 +87,10 @@ class Router extends PureComponent<RouterProps, RouterState> {
 
   endTransition = (): void => {
     this.setState({ previous: undefined, isChanging: false })
+  }
+
+  _onHistoryChanged = (event: HistoryChangedEvent): void => {
+    this.process(event.url)
   }
 
   _onPopState = () => {
