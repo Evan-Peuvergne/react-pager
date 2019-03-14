@@ -47,11 +47,6 @@ class Router extends PureComponent<RouterProps, RouterState> {
     this.process(window.location.pathname)
 
     history.listen(this._onHistoryChanged)
-
-    // window.addEventListener('popstate', this._onPopState)
-    // window.addEventListener('HistoryChanged', d => {
-    //   this.process(window.location.pathname)
-    // })
   }
 
   process(url: string): void {
