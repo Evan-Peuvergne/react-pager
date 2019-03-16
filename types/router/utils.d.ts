@@ -1,2 +1,1 @@
-import { Route } from './index';
-export declare const isMatching: (url: string, route: Route) => boolean;
+export declare const isMatching: (url: string, pattern: string | RegExp) => boolean;
