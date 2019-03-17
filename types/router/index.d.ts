@@ -1,8 +1,8 @@
-import React, { PureComponent, ReactElement } from 'react';
+import React, { PureComponent } from 'react';
 import { HistoryChangedEvent } from './history';
-import Route, { RouteProps } from './route';
-export declare type RouteType = ReactElement<RouteProps>;
+import Route, { RouteType, RouteProps } from './route';
 export interface RouterProps {
+    onRouteChanged?: (current?: RouteType, previous?: RouteType) => Promise<any> | number | boolean;
     children: RouteType[];
     className?: string;
 }
@@ -12,13 +12,14 @@ export interface RouterState {
     isChanging: boolean;
 }
 declare class Router extends PureComponent<RouterProps, RouterState> {
+    static routes: RouteType[];
+    static notFound: RouteType;
     constructor(props: RouterProps);
     componentDidMount(): void;
-    process(url: string): void;
+    parse: (url: string) => React.ReactElement<RouteProps, string | ((props: any) => React.ReactElement<any, string | any | (new (props: any) => React.Component<any, any, any>)> | null) | (new (props: any) => React.Component<any, any, any>)>;
     display: (route: React.ReactElement<RouteProps, string | ((props: any) => React.ReactElement<any, string | any | (new (props: any) => React.Component<any, any, any>)> | null) | (new (props: any) => React.Component<any, any, any>)>) => void;
     endTransition: () => void;
     _onHistoryChanged: (event: HistoryChangedEvent) => void;
-    _onPopState: () => void;
     render(): JSX.Element;
 }
 export default Router;

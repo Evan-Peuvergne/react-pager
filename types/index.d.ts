@@ -1,11 +1,9 @@
 import Router from './router';
-import Link from './link';
-import history from './router/history';
+import Route from './route';
+import Link, { LinkProps } from './link';
+import history, { HistoryChangedEvent } from './router/history';
 import { isMatching } from './router/utils';
 export default Router;
-export { Router, Link, history };
+export { Router, Route, Link, history };
 export { isMatching };
-import { Route } from './router';
-import { LinkProps } from './link';
-import { HistoryChangedEvent } from './router/history';
-export { Route, LinkProps, HistoryChangedEvent };
+export { LinkProps, HistoryChangedEvent };

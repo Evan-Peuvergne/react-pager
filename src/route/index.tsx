@@ -1,9 +1,4 @@
-import React, {
-  PureComponent,
-  ComponentType,
-  ReactNode,
-  ReactElement,
-} from 'react'
+import React, { PureComponent, ComponentType, ReactNode } from 'react'
 
 export interface RouteProps {
   name: string
@@ -11,7 +6,6 @@ export interface RouteProps {
   url?: string
   component: ComponentType<any>
 }
-export type RouteType = ReactElement<RouteProps>
 
 class Route extends PureComponent<RouteProps> {
   matchUrl = (url: string): Boolean => {
@@ -27,9 +21,5 @@ class Route extends PureComponent<RouteProps> {
     return <Component />
   }
 }
-
-export const DefaultNotFoundRoute = (
-  <Route name='Not found' pattern='*' component={() => <p>Not found</p>} />
-)
 
 export default Route

@@ -1,24 +1,15 @@
-import React, { PureComponent, ReactElement } from 'react'
-import { findIndex } from 'lodash'
+import React, { PureComponent, Fragment, ReactElement, Children } from 'react'
+import { findIndex, values } from 'lodash'
 import history, { HistoryChangedEvent, Listener } from './history'
 import { isMatching } from './utils'
 
-import Route, { RouteProps } from './route'
+import Route, { DefaultNotFoundRoute, RouteType, RouteProps } from './route'
 
-// export interface Route {
-//   name: string
-//   url?: string
-//   pattern: string | RegExp
-//   component: React.ComponentType<any>
-// }
-export type RouteType = ReactElement<RouteProps>
 export interface RouterProps {
-  // routes: Route[]
-  // onRouteChanged?: (
-  //   current?: Route,
-  //   previous?: Route
-  // ) => Promise<any> | number | boolean
-  // children: ComponentType<RouteProps>[]
+  onRouteChanged?: (
+    current?: RouteType,
+    previous?: RouteType
+  ) => Promise<any> | number | boolean
   children: RouteType[]
   className?: string
 }
@@ -29,93 +20,71 @@ export interface RouterState {
 }
 
 class Router extends PureComponent<RouterProps, RouterState> {
-  // static routes: Route[]
-  // static notFound?: Route
+  static routes: RouteType[]
+  static notFound: RouteType
 
   constructor(props: RouterProps) {
     super(props)
-
     this.state = {
       previous: undefined,
       current: undefined,
       isChanging: false,
     }
 
-    // this.state = {
-    //   previous: undefined,
-    //   current: undefined,
-    //   isChanging: false,
-    // }
-
-    // Router.routes = props.routes
-
-    // let index: number = findIndex(props.routes, r => r.url === '*')
-    // if (index) Router.notFound = props.routes[index]
-    // Router.routes.splice(index, 1)
+    Router.routes = values(props.children)
+    let index: number = findIndex(props.children, r => r.props.pattern === '*')
+    if (index) Router.notFound = Router.routes[index]
+    else Router.notFound = DefaultNotFoundRoute
   }
 
   componentDidMount() {
-    this.process(window.location.pathname)
+    this.display(this.parse(window.location.pathname))
 
     history.listen(this._onHistoryChanged)
   }
 
-  process(url: string): void {
-    for (let r in this.props.children) {
-      let route = this.props.children[r]
-      if (isMatching(url, route.props.pattern)) return this.display(route)
+  parse = (url: string): RouteType => {
+    for (let r in Router.routes) {
+      let route = Router.routes[r]
+      if (isMatching(url, route.props.pattern)) return route
     }
-    // if (Router.notFound) return this.display(Router.notFound)
+    return Router.notFound
   }
 
   display = (route: RouteType): void => {
+    let previous = this.state.current
     this.setState({
       current: route,
-      previous: this.state.current,
+      previous,
       isChanging: true,
     })
+
+    if (this.props.onRouteChanged) {
+      let result = this.props.onRouteChanged(route, previous)
+      if (typeof result === 'boolean' && result === true) this.endTransition()
+      if (typeof result === 'number') setTimeout(this.endTransition, result)
+      if (result instanceof Promise) result.then(this.endTransition)
+    } else {
+      this.endTransition()
+    }
   }
 
-  // display = (route: Route, url?: string): void => {
-  // let previous = this.state.current
-  // if (url && route.url !== url)
-  //   window.history.replaceState({}, route.name, route.url)
-  // this.setState({
-  //   current: route,
-  //   previous: this.state.current,
-  //   isChanging: true,
-  // })
-  // if (this.props.onRouteChanged) {
-  //   let result = this.props.onRouteChanged(route, previous)
-  //   if (typeof result === 'boolean' && result === true) this.endTransition()
-  //   if (typeof result === 'number') setTimeout(this.endTransition, result)
-  //   if (result instanceof Promise) result.then(this.endTransition)
-  // } else {
-  //   this.endTransition()
-  // }
-  // }
-
   endTransition = (): void => {
-    // this.setState({ previous: undefined, isChanging: false })
+    this.setState({ previous: undefined, isChanging: false })
   }
 
   _onHistoryChanged = (event: HistoryChangedEvent): void => {
-    this.process(event.url)
-  }
-
-  _onPopState = () => {
-    // let event = new CustomEvent('HistoryChanged', {})
-    // window.dispatchEvent(event)
+    this.display(this.parse(window.location.pathname))
   }
 
   render() {
-    let Current = this.state.current
-    // let Previous = state.previous ? state.previous.component : null
+    const { current, previous } = this.state
+    console.log(current)
 
     return (
       <div className={this.props.className}>
-        {/* {Previous && state.isChanging && <Previous />} */}
-        {Current}
+        {current}
+        {previous}
       </div>
     )
   }
