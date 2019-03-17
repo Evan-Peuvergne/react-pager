@@ -79,7 +79,6 @@ class Router extends PureComponent<RouterProps, RouterState> {
 
   render() {
     const { current, previous } = this.state
-    console.log(current)
 
     return (
       <div className={this.props.className}>
