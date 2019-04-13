@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { HistoryChangedEvent } from './history';
-import Route, { RouteType, RouteProps } from './route';
+import { RouteType, RouteProps } from './route';
 export interface RouterProps {
     onRouteChanged?: (current?: RouteType, previous?: RouteType) => Promise<any> | number | boolean;
     children: RouteType[];
@@ -23,4 +23,3 @@ declare class Router extends PureComponent<RouterProps, RouterState> {
     render(): JSX.Element;
 }
 export default Router;
-export { Route };

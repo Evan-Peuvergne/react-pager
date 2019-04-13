@@ -90,4 +90,3 @@ class Router extends PureComponent<RouterProps, RouterState> {
 }
 
 export default Router
-export { Route }

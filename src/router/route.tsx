@@ -5,11 +5,11 @@ import React, {
   ReactElement,
 } from 'react'
 
-export interface RouteProps {
+export type RouteProps = {
   name: string
   pattern: string | RegExp
   url?: string
-  component: ComponentType<any>
+  children?: ReactElement<any> | ReactElement<any>[]
 }
 export type RouteType = ReactElement<RouteProps>
 
@@ -23,13 +23,14 @@ class Route extends PureComponent<RouteProps> {
   }
 
   render() {
-    const Component = this.props.component
-    return <Component />
+    return this.props.children
   }
 }
 
 export const DefaultNotFoundRoute = (
-  <Route name='Not found' pattern='*' component={() => <p>Not found</p>} />
+  <Route name='Not found' pattern='*'>
+    <p>Not found</p>
+  </Route>
 )
 
 export default Route
