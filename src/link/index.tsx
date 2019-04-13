@@ -4,7 +4,7 @@ import Router from '../router'
 import { isMatching } from 'router/utils'
 import history from 'router/history'
 
-import { Route } from '../router'
+// import { Route } from '../router'
 
 export interface LinkProps {
   dest: string
@@ -21,10 +21,10 @@ class Link extends Component<LinkProps, LinkState> {
     super(props)
 
     let url: string = props.dest
-    if (Router && Router.routes) {
-      let route = find(Router.routes, r => isMatching(props.dest, r))
-      if (route && route.url) url = route.url
-    }
+    // if (Router && Router.routes) {
+    //   let route = find(Router.routes, r => isMatching(props.dest, r))
+    //   if (route && route.url) url = route.url
+    // }
     this.state = { url }
   }
 

@@ -1,9 +1,5 @@
-import { Route } from './index'
-
-export const isMatching = (url: string, route: Route): boolean => {
-  let pattern = route.pattern
-
+export const isMatching = (url: string, pattern: string | RegExp): boolean => {
   if (pattern instanceof RegExp) return pattern.test(url)
-  if (route.pattern instanceof String) return route.pattern === url
+  if (typeof pattern === 'string') return pattern === url
   return false
 }
