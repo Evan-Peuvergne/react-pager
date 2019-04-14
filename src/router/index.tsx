@@ -1,82 +1,65 @@
-import React, { PureComponent } from 'react'
-import { findIndex } from 'lodash'
+import React, { PureComponent, Fragment, ReactElement, Children } from 'react'
+import { findIndex, values } from 'lodash'
 import history, { HistoryChangedEvent, Listener } from './history'
 import { isMatching } from './utils'
 
-export interface Route {
-  name: string
-  url?: string
-  pattern: string | RegExp
-  component: React.ComponentType<any>
-}
+import Route, { DefaultNotFoundRoute, RouteType, RouteProps } from './route'
+
 export interface RouterProps {
-  routes: Route[]
   onRouteChanged?: (
-    current?: Route,
-    previous?: Route
+    current?: RouteType,
+    previous?: RouteType
   ) => Promise<any> | number | boolean
+  children: RouteType[]
   className?: string
 }
 export interface RouterState {
-  previous?: Route
-  current?: Route
+  previous?: RouteType
+  current?: RouteType
   isChanging: boolean
 }
 
 class Router extends PureComponent<RouterProps, RouterState> {
-  static routes: Route[]
-  static notFound?: Route
+  static routes: RouteType[]
+  static notFound: RouteType
 
   constructor(props: RouterProps) {
     super(props)
-
     this.state = {
       previous: undefined,
       current: undefined,
       isChanging: false,
     }
 
-    Router.routes = props.routes
-
-    let index: number = findIndex(props.routes, r => r.url === '*')
-    if (index) Router.notFound = props.routes[index]
-    Router.routes.splice(index, 1)
+    Router.routes = values(props.children)
+    let index: number = findIndex(props.children, r => r.props.pattern === '*')
+    if (index) Router.notFound = Router.routes[index]
+    else Router.notFound = DefaultNotFoundRoute
   }
 
   componentDidMount() {
-    this.process(window.location.pathname)
-
+    this.display(this.parse(window.location.pathname))
     history.listen(this._onHistoryChanged)
-
-    // window.addEventListener('popstate', this._onPopState)
-    // window.addEventListener('HistoryChanged', d => {
-    //   this.process(window.location.pathname)
-    // })
   }
 
-  process(url: string): void {
-    for (let i in Router.routes) {
-      let route: Route = Router.routes[i]
-      if (isMatching(url, route)) return this.display(route, url)
+  parse = (url: string): RouteType => {
+    for (let r in Router.routes) {
+      let route = Router.routes[r]
+      if (isMatching(url, route)) return route
     }
-    if (Router.notFound) return this.display(Router.notFound)
+    return Router.routes[0]
   }
 
-  display = (route: Route, url?: string): void => {
+  display = (route: RouteType): void => {
     let previous = this.state.current
-
-    if (url && route.url !== url)
-      window.history.replaceState({}, route.name, route.url)
-
     this.setState({
       current: route,
-      previous: this.state.current,
+      previous,
       isChanging: true,
     })
 
     if (this.props.onRouteChanged) {
       let result = this.props.onRouteChanged(route, previous)
-
       if (typeof result === 'boolean' && result === true) this.endTransition()
       if (typeof result === 'number') setTimeout(this.endTransition, result)
       if (result instanceof Promise) result.then(this.endTransition)
@@ -90,23 +73,16 @@ class Router extends PureComponent<RouterProps, RouterState> {
   }
 
   _onHistoryChanged = (event: HistoryChangedEvent): void => {
-    this.process(event.url)
-  }
-
-  _onPopState = () => {
-    let event = new CustomEvent('HistoryChanged', {})
-    window.dispatchEvent(event)
+    this.display(this.parse(window.location.pathname))
   }
 
   render() {
-    let state: RouterState = this.state
-    let Current = state.current ? state.current.component : null
-    let Previous = state.previous ? state.previous.component : null
+    const { current, previous } = this.state
 
     return (
       <div className={this.props.className}>
-        {Previous && state.isChanging && <Previous />}
-        {Current && <Current />}
+        {current}
+        {previous}
       </div>
     )
   }

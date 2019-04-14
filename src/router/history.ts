@@ -26,12 +26,13 @@ class History {
   go = (url: string): void => {
     let event: HistoryChangedEvent = { dest: url, url }
 
-    let route = find(Router.routes, r => isMatching(url, r))
-    if (route)
-      event = Object.assign(event, { url: route.url, name: route.name })
+    // let route = find(Router.routes, r => isMatching(url, r))
+    // if (route)
+    // event = Object.assign(event, { url: route.url, name: route.name })
 
-    if (route) window.history.pushState(event, route.name, route.url)
-    else window.history.pushState(event, url, url)
+    // if (route) window.history.pushState(event, route.name, route.url)
+    // else
+    window.history.pushState(event, url, url)
 
     this._callListeners(event)
   }
