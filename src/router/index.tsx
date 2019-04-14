@@ -39,16 +39,15 @@ class Router extends PureComponent<RouterProps, RouterState> {
 
   componentDidMount() {
     this.display(this.parse(window.location.pathname))
-
     history.listen(this._onHistoryChanged)
   }
 
   parse = (url: string): RouteType => {
     for (let r in Router.routes) {
       let route = Router.routes[r]
-      if (isMatching(url, route.props.pattern)) return route
+      if (isMatching(url, route)) return route
     }
-    return Router.notFound
+    return Router.routes[0]
   }
 
   display = (route: RouteType): void => {
